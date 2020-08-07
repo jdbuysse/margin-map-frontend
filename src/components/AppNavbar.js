@@ -4,7 +4,7 @@ import {
     NavbarToggler, Container, 
     NavbarBrand, NavItem, NavLink
 } from 'reactstrap';
-
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 export default class AppNavbar extends Component {
     state = {
@@ -27,7 +27,9 @@ export default class AppNavbar extends Component {
                     <Collapse isOpen={this.state.isOpen} navbar />
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink href="https://github.com/jdbuysse">Github</NavLink>
+                                <Route>
+                                <NavLink href="/snip">Add Lesson</NavLink>
+                                </Route>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="/">Lessons</NavLink>
@@ -40,6 +42,5 @@ export default class AppNavbar extends Component {
             </Navbar>
             </div>
         )
-
     }
 }
