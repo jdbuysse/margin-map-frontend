@@ -11,6 +11,7 @@ const App = () => {
 
   const [lessons, setLessons] = useState();
 
+
   useEffect(() => {
     // async function fetchData() {
     //   const response = await fetch(`${API_URL}/snippets`);
@@ -23,6 +24,8 @@ const App = () => {
       .then(data => {
         setLessons(data)
       })
+
+    
     }, []) //put things in this array if you want other triggers to cause useEffect to execute
 
  
