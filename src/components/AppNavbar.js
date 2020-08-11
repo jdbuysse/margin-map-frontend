@@ -4,7 +4,7 @@ import {
     NavbarToggler, Container, 
     NavbarBrand, NavItem, NavLink
 } from 'reactstrap';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Route} from 'react-router-dom';
 
 export default class AppNavbar extends Component {
     state = {
