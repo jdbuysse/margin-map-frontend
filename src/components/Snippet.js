@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Modal, ModalBody, 
   ModalHeader, Button, ModalFooter,
-  Form, FormGroup, Label, Input 
+  Form, FormGroup, Input 
   } from 'reactstrap';
-import Highlightable from "highlightable";
 import Highlighter from "react-highlight-words";
-import AnnotationModal from './AnnotationModal';
+import Annotation from './Annotation';
 
 const Snippet = (lessons) => {
   const API_URL = 'http://localhost:5000'
@@ -42,21 +41,11 @@ const Snippet = (lessons) => {
     setAnnotationRanges(thing)
   }
 
-  // const testCallback = () => {
-  //   console.log('hi')
-  //   setMouseover(true)
-  // }
-
   const handleMouseUp = () =>{
     if (window.getSelection().toString()){
       setNewAnnotationText(window.getSelection().toString())
       toggleModal()
     }
-    //you can use this string to search through the doc and find character places
-    //you can have this create a little pop-up modal that allows user to enter an annotation
-    //you can handle annotation removal from the annotation text on the sidebar
-    //and then you can use the other highlighter addon to just highlight text?
-  
   }
 
   const createNewAnnotation = (content) => {
@@ -102,15 +91,9 @@ const Snippet = (lessons) => {
 
   const patchAnnotationsToSnippet = (idArray) => {
     let id = lessons.lessons[0]._id
-    
-
-
-
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     let raw = JSON.stringify({"annotations":idArray});
-
     let requestOptions = {
       method: 'PATCH',
       headers: myHeaders,
@@ -144,7 +127,6 @@ const Snippet = (lessons) => {
   const getSnippetAndAnnotations = () => {
     return Promise.all([getSnippetById(lessons.lessons[0]._id), getAnnotations()])
   }
-
 
   return (
     <div onMouseUp={handleMouseUp}>
@@ -185,8 +167,8 @@ const Snippet = (lessons) => {
             }
           </Col>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
-            {annotations && annotations.map((annotation) => ( //rewrite as component
-                <li>{annotation.content}</li>
+            {annotations && annotations.map((annotation, index) => ( 
+              <Annotation annotation={annotation} key={index} />
             ))}
           </Col>
         </Row>
