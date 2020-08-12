@@ -12,7 +12,6 @@ const Snippet = (lessons) => {
 
   const [annotations, setAnnotations] = useState();
   const [annotationRanges, setAnnotationRanges] = useState();
-  const [mouseover, setMouseover] = useState(false);
   const [modal, setModal] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
@@ -43,10 +42,10 @@ const Snippet = (lessons) => {
     setAnnotationRanges(thing)
   }
 
-  const testCallback = () => {
-    console.log('hi')
-    setMouseover(true)
-  }
+  // const testCallback = () => {
+  //   console.log('hi')
+  //   setMouseover(true)
+  // }
 
   const handleMouseUp = () =>{
     if (window.getSelection().toString()){
@@ -59,22 +58,16 @@ const Snippet = (lessons) => {
     //and then you can use the other highlighter addon to just highlight text?
   
   }
-  const formatNewAnnotation = (text) => {
-    console.log('fiya', newAnnotationText)
-    toggleModal()
-    console.log(newAnnotationContent)
-    createNewAnnotation(newAnnotationContent)
-  }
 
   const createNewAnnotation = (content) => {
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       "content":content,
     });
 
-    var requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
@@ -87,6 +80,70 @@ const Snippet = (lessons) => {
       .catch(error => console.log('error', error));
   }
 
+  const formatNewAnnotation = () => {
+    toggleModal()
+    createNewAnnotation(newAnnotationContent)
+    patchNewAnnotation()
+  }
+
+  const patchNewAnnotation = () => {
+    getSnippetAndAnnotations()
+      .then(([snippet, notes]) => {
+        console.log(snippet, notes)
+        getAnnotationIDs(notes)
+      })
+  }
+
+  const getAnnotationIDs = (notes) => {
+    let IDs = notes.map((annotation) => annotation._id)
+    console.log(IDs)
+    patchAnnotationsToSnippet(IDs)
+  }
+
+  const patchAnnotationsToSnippet = (idArray) => {
+    let id = lessons.lessons[0]._id
+    
+
+
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    let raw = JSON.stringify({"annotations":idArray});
+
+    let requestOptions = {
+      method: 'PATCH',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch(`${API_URL}/snippets/${id}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
+
+  const getSnippetById = (id) => {
+    return fetch(`${API_URL}/snippets/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }).then((response) => response.json())
+  };
+
+  const getAnnotations = () => {
+    return fetch(`${API_URL}/annotations/`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }).then((response) => response.json())
+  };
+
+  const getSnippetAndAnnotations = () => {
+    return Promise.all([getSnippetById(lessons.lessons[0]._id), getAnnotations()])
+  }
 
 
   return (
@@ -127,7 +184,11 @@ const Snippet = (lessons) => {
               />
             }
           </Col>
-          <Col sm={{ size: 6, order: 2, offset: 0 }}><li>{annotations && annotations[0].content}</li><li>{annotations && annotations[1].content}</li></Col>
+          <Col sm={{ size: 6, order: 2, offset: 0 }}>
+            {annotations && annotations.map((annotation) => ( //rewrite as component
+                <li>{annotation.content}</li>
+            ))}
+          </Col>
         </Row>
         <Col>
             <div onMouseUp={handleMouseUp}>asdf</div>
