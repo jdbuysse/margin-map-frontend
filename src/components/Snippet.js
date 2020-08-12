@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { Container, Row, Col, Modal, ModalBody, 
   ModalHeader, Button, ModalFooter,
   Form, FormGroup, Input 
@@ -14,6 +14,25 @@ const Snippet = (lessons) => {
   const [modal, setModal] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
+  
+  const removeAnnotation = (removedAnnotationID) => {
+    deleteAnnotation(removedAnnotationID)
+    const newArray = annotations.filter(annotation => !(annotation._id === removedAnnotationID));
+    setAnnotations(newArray);
+  }
+
+  const deleteAnnotation = (id) => {
+    var raw = "";
+    var requestOptions = {
+      method: 'DELETE',
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch(`http://localhost:5000/annotations/${id}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
 
   const toggleModal = () => setModal(!modal);
 
@@ -168,7 +187,7 @@ const Snippet = (lessons) => {
           </Col>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
             {annotations && annotations.map((annotation, index) => ( 
-              <Annotation annotation={annotation} key={index} />
+              <Annotation annotation={annotation} key={index} removeAnnotation={removeAnnotation} />
             ))}
           </Col>
         </Row>

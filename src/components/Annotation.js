@@ -1,15 +1,10 @@
 import React from 'react';
 
-const Annotation = ( {annotation, annotationList} ) => {
+const Annotation = ( {annotation, removeAnnotation} ) => {
 
-    const removeAnnotation = () => {
-        console.log(annotation._id)
-        
-        
-    }
 
     return(
-        <li>{annotation.content}<button onClick={() => removeAnnotation()}> x</button></li> //add a button to delete thing
+        <li>{annotation.content}<button onClick={() =>removeAnnotation(annotation._id)}> x</button></li> //add a button to delete thing
     )
 }
 
