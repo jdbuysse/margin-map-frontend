@@ -1,18 +1,31 @@
 import React from 'react';
-import { Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader, Button, ModalFooter,
+Form, FormGroup, Input} from 'reactstrap';
 
-const AnnotationModal = (modal, toggleModal) => {
+const AnnotationModal = ({modal, toggleModal, newAnnotationText, 
+    setNewAnnotationContent, formatNewAnnotation, newAnnotationContent}) => {
     return (
         <Modal isOpen={modal} toggle={toggleModal} className={"name"}>
-            <ModalHeader toggle={toggleModal}>Modal title</ModalHeader>
-            <ModalBody>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={toggleModal}>Do Something</Button>{' '}
-                <Button color="secondary" onClick={toggleModal}>Cancel</Button>
-            </ModalFooter>
-        </Modal>
+        <ModalHeader toggle={toggleModal}>Add annotation</ModalHeader>
+        <ModalBody>
+           <b>Selected text: </b><br/>
+           {newAnnotationText}
+        <Form>
+          <FormGroup>
+            <Input 
+              type="text" 
+              placeholder="Add your annotation here."
+              value={newAnnotationContent}
+              onChange = {e => setNewAnnotationContent(e.target.value)}
+             />
+          </FormGroup>
+        </Form>
+        </ModalBody>
+        <ModalFooter>
+            <Button color="primary" onClick={() => formatNewAnnotation()}>Add annotation</Button>{' '}
+            <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+        </ModalFooter>
+    </Modal>
     )
 
 }

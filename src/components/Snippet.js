@@ -1,10 +1,8 @@
 import React, { useEffect, useState} from 'react';
-import { Container, Row, Col, Modal, ModalBody, 
-  ModalHeader, Button, ModalFooter,
-  Form, FormGroup, Input 
-  } from 'reactstrap';
+import { Container, Row, Col} from 'reactstrap';
 import Highlighter from "react-highlight-words";
 import Annotation from './Annotation';
+import AnnotationModal from './AnnotationModal';
 
 const Snippet = (lessons) => {
   const API_URL = 'http://localhost:5000'
@@ -150,28 +148,11 @@ const Snippet = (lessons) => {
   return (
     <div onMouseUp={handleMouseUp}>
       
-      {/*would love to refactor this to a new component but having trouble passing props {modal && <AnnotationModal modal={modal} toggle={toggleModal}/>} */}
-      <Modal isOpen={modal} toggle={toggleModal} className={"name"}>
-            <ModalHeader toggle={toggleModal}>Add annotation</ModalHeader>
-            <ModalBody>
-               <b>Selected text: </b><br/>
-               {newAnnotationText}
-            <Form>
-              <FormGroup>
-                <Input 
-                  type="text" 
-                  placeholder="Add your annotation here."
-                  value={newAnnotationContent}
-                  onChange = {e => setNewAnnotationContent(e.target.value)}
-                 />
-              </FormGroup>
-            </Form>
-            </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={() => formatNewAnnotation()}>Add annotation</Button>{' '}
-                <Button color="secondary" onClick={toggleModal}>Cancel</Button>
-            </ModalFooter>
-        </Modal>
+        <AnnotationModal 
+          modal={modal} toggleModal={toggleModal} formatNewAnnotation={formatNewAnnotation}
+          setNewAnnotationContent={setNewAnnotationContent} newAnnotationContent={newAnnotationContent}
+          newAnnotationText={newAnnotationText}
+        />
       <Container>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
@@ -191,9 +172,6 @@ const Snippet = (lessons) => {
             ))}
           </Col>
         </Row>
-        <Col>
-            <div onMouseUp={handleMouseUp}>asdf</div>
-        </Col>
       </Container>
     </div>
   );
