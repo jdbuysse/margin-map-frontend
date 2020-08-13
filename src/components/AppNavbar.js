@@ -22,7 +22,7 @@ export default class AppNavbar extends Component {
             <div>
             <Navbar color="light" light expand="sm" className="mb-5">
                 <Container>
-                    <NavbarBrand href='/'>Untitled Annotation App</NavbarBrand>
+                    <NavbarBrand href='/'>Margin Map</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar />
                         <Nav className="ml-auto" navbar>

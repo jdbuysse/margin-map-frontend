@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import '../styles/snippet.css';
-import { Container, Row, Col} from 'reactstrap';
+import { Container, Row, Col, Button} from 'reactstrap';
 import Highlighter from "react-highlight-words";
 import Annotation from './Annotation';
 import AnnotationModal from './AnnotationModal';
@@ -11,10 +11,12 @@ const Snippet = (lessons) => {
   const [annotations, setAnnotations] = useState(false);
   const [annotationStrings, setAnnotationStrings] = useState('');
   const [modal, setModal] = useState(false);
+  const [annotationsColumn, setAnnotationsColumn] = useState(true);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
 
   const toggleModal = () => setModal(!modal);
+  const toggleAnnotationsColumn = () => setAnnotationsColumn(!annotationsColumn)
 
   const removeAnnotation = (removedAnnotationID) => {
     deleteAnnotation(removedAnnotationID)
@@ -158,6 +160,15 @@ const Snippet = (lessons) => {
     createAnnotationTargetStrings(annotations)
   }
 
+  const click = (e) => {
+    let isMatch = (element) => element === e.target.innerHTML
+    if (e.target.className !== ''){
+      console.log(annotationStrings.findIndex(isMatch))
+      //this number corresponds to the index of the object in 'annotations'
+      //next step is to create an 'annotation pop-up' component
+    }
+  }
+
   return (
     <div onMouseUp={handleMouseUp}>
         <AnnotationModal 
@@ -166,6 +177,9 @@ const Snippet = (lessons) => {
           newAnnotationText={newAnnotationText} newAnnotationHandler={newAnnotationHandler}
         />
       <Container>
+      <Col sm={{ size: 6, order: 2, offset: 6 }}>
+        <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Hide annotations</Button>
+      </Col>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
             {annotations &&
@@ -174,12 +188,16 @@ const Snippet = (lessons) => {
                 searchWords={annotationStrings ? annotationStrings : [""]}
                 autoEscape={true}
                 textToHighlight={lessons && lessons.lessons[0].body}
-                onMouseUp={handleMouseUp}
+                //activeIndex={0}
+                onClick={click}
+                //activeClassName="active-highlighted-text"
               />
             }
-          </Col>
+            </Col>
+          
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
-            {annotations && annotations.map((annotation, index) => ( 
+            
+            {annotationsColumn && annotations && annotations.map((annotation, index) => ( 
               <Annotation annotation={annotation} key={index} removeAnnotation={removeAnnotation} />
             ))}
           </Col>

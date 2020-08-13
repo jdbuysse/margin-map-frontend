@@ -17,8 +17,6 @@ const App = () => {
       .then(data => {
         setLessons(data)
       })
-
-    
     }, [])
 
  

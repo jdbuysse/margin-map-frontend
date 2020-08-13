@@ -1,3 +1,11 @@
 .highlighted-text {
     color: red;
 }
+
+.active-highlighted-text {
+    color: blue;
+}
+
+.hide-annotations-button {
+    margin-bottom: 1vh;
+}
