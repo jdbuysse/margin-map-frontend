@@ -8,8 +8,8 @@ import AnnotationModal from './AnnotationModal';
 const Snippet = (lessons) => {
   const API_URL = 'http://localhost:5000'
 
-  const [annotations, setAnnotations] = useState();
-  const [annotationStrings, setAnnotationStrings] = useState();
+  const [annotations, setAnnotations] = useState(false);
+  const [annotationStrings, setAnnotationStrings] = useState('');
   const [modal, setModal] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
@@ -36,7 +36,6 @@ const Snippet = (lessons) => {
   }
 
   useEffect(() => {
-    console.log('useEffect triggered')
     let id = lessons.lessons[0]._id
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
@@ -46,9 +45,11 @@ const Snippet = (lessons) => {
       })
   }, [lessons])
 
-  // useEffect(() => {
-  //   createAnnotationTargetStrings(annotations)
-  // })
+  useEffect(() => {
+    if (annotations){
+      createAnnotationTargetStrings(annotations)
+    }
+  }, [annotations])
 
   const createAnnotationTargetStrings = (annotations) => {
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
@@ -143,7 +144,7 @@ const Snippet = (lessons) => {
     let newArray = [...annotations, object]
     setAnnotations(newArray)
   }
-  
+
   const newAnnotationHandler = () => {
     toggleModal()
     promiseAddAnnotation(newAnnotationContent)
