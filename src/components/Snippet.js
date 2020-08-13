@@ -9,11 +9,12 @@ const Snippet = (lessons) => {
   const API_URL = 'http://localhost:5000'
 
   const [annotations, setAnnotations] = useState();
-  const [annotationRanges, setAnnotationRanges] = useState();
   const [annotationStrings, setAnnotationStrings] = useState();
   const [modal, setModal] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
+
+  const toggleModal = () => setModal(!modal);
 
   const removeAnnotation = (removedAnnotationID) => {
     deleteAnnotation(removedAnnotationID)
@@ -34,38 +35,20 @@ const Snippet = (lessons) => {
       .catch(error => console.log('error', error));
   }
 
-  const toggleModal = () => setModal(!modal);
-
   useEffect(() => {
     console.log('useEffect triggered')
     let id = lessons.lessons[0]._id
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
       .then(data => {
-        setAnnotations(data.annotations) //if I set here, it loops useEffect
-        handleAnnotationRangeFormatting(data.annotations)
+        setAnnotations(data.annotations)
         createAnnotationTargetStrings(data.annotations)
       })
-  }, [lessons]) //annotations, annotationStrings
+  }, [lessons])
 
-  useEffect(() => {
-    console.log('annotations useEffect', annotations)
-    //createAnnotationTargetStrings(annotations)
-  }, [annotations])
-
-  const handleAnnotationRangeFormatting = (data) => {
-    //map annotation data into 'ranges' array of objects
-    const thing = [];
-    data.forEach((entry) => {
-      thing.push({
-        text: entry.content,
-        start: entry.corresponding_range[0],
-        end: entry.corresponding_range[1],
-        data: entry
-      })
-    })
-    setAnnotationRanges(thing)
-  }
+  // useEffect(() => {
+  //   createAnnotationTargetStrings(annotations)
+  // })
 
   const createAnnotationTargetStrings = (annotations) => {
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
@@ -109,7 +92,7 @@ const Snippet = (lessons) => {
 
   const patchNewAnnotation = () => {
     getSnippetAndAnnotations()
-      .then(([snippet, notes]) => {
+      .then(([notes]) => {
         getAnnotationIDs(notes)
       })
   }
@@ -134,15 +117,6 @@ const Snippet = (lessons) => {
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
   }
-
-  const getSnippetById = (id) => {
-    return fetch(`${API_URL}/snippets/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then((response) => response.json())
-  };
 
   const getAnnotations = () => {
     return fetch(`${API_URL}/annotations/`, {
@@ -169,6 +143,7 @@ const Snippet = (lessons) => {
     let newArray = [...annotations, object]
     setAnnotations(newArray)
   }
+  
   const newAnnotationHandler = () => {
     toggleModal()
     promiseAddAnnotation(newAnnotationContent)
@@ -179,6 +154,7 @@ const Snippet = (lessons) => {
         let IDs = getAnnotationIDs(notes)
         patchAnnotationsToSnippet(IDs)
     })
+    createAnnotationTargetStrings(annotations)
   }
 
   return (
@@ -191,7 +167,7 @@ const Snippet = (lessons) => {
       <Container>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
-            {annotationRanges &&
+            {annotations &&
               <Highlighter
                 highlightClassName="highlighted-text"
                 searchWords={annotationStrings ? annotationStrings : [""]}
