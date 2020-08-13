@@ -14,7 +14,7 @@ const Snippet = (lessons) => {
   const [modal, setModal] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
-  
+
   const removeAnnotation = (removedAnnotationID) => {
     deleteAnnotation(removedAnnotationID)
     const newArray = annotations.filter(annotation => !(annotation._id === removedAnnotationID));
@@ -37,14 +37,21 @@ const Snippet = (lessons) => {
   const toggleModal = () => setModal(!modal);
 
   useEffect(() => {
+    console.log('useEffect triggered')
     let id = lessons.lessons[0]._id
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
       .then(data => {
-        setAnnotations(data.annotations)
+        setAnnotations(data.annotations) //if I set here, it loops useEffect
         handleAnnotationRangeFormatting(data.annotations)
+        createAnnotationTargetStrings(data.annotations)
       })
-  }, [lessons, annotations])
+  }, [lessons]) //annotations, annotationStrings
+
+  useEffect(() => {
+    console.log('annotations useEffect', annotations)
+    //createAnnotationTargetStrings(annotations)
+  }, [annotations])
 
   const handleAnnotationRangeFormatting = (data) => {
     //map annotation data into 'ranges' array of objects
@@ -60,7 +67,7 @@ const Snippet = (lessons) => {
     setAnnotationRanges(thing)
   }
 
-  const createAnnotationTargetStrings = () => {
+  const createAnnotationTargetStrings = (annotations) => {
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
     setAnnotationStrings(newAnnotationStrings)
   }
@@ -90,7 +97,7 @@ const Snippet = (lessons) => {
 
     fetch(`${API_URL}/annotations`, requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => console.log('new object',result))
       .catch(error => console.log('error', error));
   }
 
@@ -105,13 +112,10 @@ const Snippet = (lessons) => {
       .then(([snippet, notes]) => {
         getAnnotationIDs(notes)
       })
-    createAnnotationTargetStrings()
   }
 
   const getAnnotationIDs = (notes) => {
-    let IDs = notes.map((annotation) => annotation._id)
-    console.log(IDs)
-    patchAnnotationsToSnippet(IDs)
+    return notes.map((annotation) => annotation._id) 
   }
 
   const patchAnnotationsToSnippet = (idArray) => {
@@ -150,16 +154,39 @@ const Snippet = (lessons) => {
   };
 
   const getSnippetAndAnnotations = () => {
-    return Promise.all([getSnippetById(lessons.lessons[0]._id), getAnnotations()])
+    return Promise.all([getAnnotations()])
+  }
+
+  const promiseAddAnnotation = () => {
+    return Promise.all([createNewAnnotation(newAnnotationContent)])
+  }
+
+  const promiseGetAnnotations = () => {
+    return Promise.all([getAnnotations()])
+  }
+
+  const addNewAnnotationToHook = (object) => {
+    let newArray = [...annotations, object]
+    setAnnotations(newArray)
+  }
+  const newAnnotationHandler = () => {
+    toggleModal()
+    promiseAddAnnotation(newAnnotationContent)
+    promiseGetAnnotations()
+    getSnippetAndAnnotations()
+      .then(([notes]) => {
+        addNewAnnotationToHook(notes[0])
+        let IDs = getAnnotationIDs(notes)
+        patchAnnotationsToSnippet(IDs)
+    })
   }
 
   return (
     <div onMouseUp={handleMouseUp}>
-      
         <AnnotationModal 
           modal={modal} toggleModal={toggleModal} formatNewAnnotation={formatNewAnnotation}
           setNewAnnotationContent={setNewAnnotationContent} newAnnotationContent={newAnnotationContent}
-          newAnnotationText={newAnnotationText}
+          newAnnotationText={newAnnotationText} newAnnotationHandler={newAnnotationHandler}
         />
       <Container>
         <Row>

@@ -3,7 +3,7 @@ import { Modal, ModalBody, ModalHeader, Button, ModalFooter,
 Form, FormGroup, Input} from 'reactstrap';
 
 const AnnotationModal = ({modal, toggleModal, newAnnotationText, 
-    setNewAnnotationContent, formatNewAnnotation, newAnnotationContent}) => {
+    setNewAnnotationContent, newAnnotationContent, newAnnotationHandler}) => {
     return (
         <Modal isOpen={modal} toggle={toggleModal} className={"name"}>
         <ModalHeader toggle={toggleModal}>Add annotation</ModalHeader>
@@ -22,7 +22,7 @@ const AnnotationModal = ({modal, toggleModal, newAnnotationText,
         </Form>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onClick={() => formatNewAnnotation()}>Add annotation</Button>{' '}
+            <Button color="primary" onClick={() => newAnnotationHandler()}>Add annotation</Button>{' '}
             <Button color="secondary" onClick={toggleModal}>Cancel</Button>
         </ModalFooter>
     </Modal>
