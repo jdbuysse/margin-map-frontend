@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from 'react';
+import '../styles/snippet.css';
 import { Container, Row, Col} from 'reactstrap';
 import Highlighter from "react-highlight-words";
 import Annotation from './Annotation';
@@ -9,6 +10,7 @@ const Snippet = (lessons) => {
 
   const [annotations, setAnnotations] = useState();
   const [annotationRanges, setAnnotationRanges] = useState();
+  const [annotationStrings, setAnnotationStrings] = useState();
   const [modal, setModal] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
@@ -42,7 +44,7 @@ const Snippet = (lessons) => {
         setAnnotations(data.annotations)
         handleAnnotationRangeFormatting(data.annotations)
       })
-  }, [lessons])
+  }, [lessons, annotations])
 
   const handleAnnotationRangeFormatting = (data) => {
     //map annotation data into 'ranges' array of objects
@@ -58,6 +60,11 @@ const Snippet = (lessons) => {
     setAnnotationRanges(thing)
   }
 
+  const createAnnotationTargetStrings = () => {
+    let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
+    setAnnotationStrings(newAnnotationStrings)
+  }
+
   const handleMouseUp = () =>{
     if (window.getSelection().toString()){
       setNewAnnotationText(window.getSelection().toString())
@@ -71,6 +78,7 @@ const Snippet = (lessons) => {
 
     let raw = JSON.stringify({
       "content":content,
+      "corresponding_string": newAnnotationText
     });
 
     let requestOptions = {
@@ -95,9 +103,9 @@ const Snippet = (lessons) => {
   const patchNewAnnotation = () => {
     getSnippetAndAnnotations()
       .then(([snippet, notes]) => {
-        console.log(snippet, notes)
         getAnnotationIDs(notes)
       })
+    createAnnotationTargetStrings()
   }
 
   const getAnnotationIDs = (notes) => {
@@ -158,8 +166,8 @@ const Snippet = (lessons) => {
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
             {annotationRanges &&
               <Highlighter
-                highlightClassName="YourHighlightClass"
-                searchWords={["and", "or", "the"]}
+                highlightClassName="highlighted-text"
+                searchWords={annotationStrings ? annotationStrings : [""]}
                 autoEscape={true}
                 textToHighlight={lessons && lessons.lessons[0].body}
                 onMouseUp={handleMouseUp}
