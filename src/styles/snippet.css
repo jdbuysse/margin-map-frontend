@@ -9,3 +9,7 @@
 .hide-annotations-button {
     margin-bottom: 1vh;
 }
+
+#Popover1{
+    display: none;
+}

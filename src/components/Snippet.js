@@ -4,6 +4,7 @@ import { Container, Row, Col, Button} from 'reactstrap';
 import Highlighter from "react-highlight-words";
 import Annotation from './Annotation';
 import AnnotationModal from './AnnotationModal';
+import AnnotationPopover from './AnnotationPopover'
 
 const Snippet = (lessons) => {
   const API_URL = 'http://localhost:5000'
@@ -14,9 +15,13 @@ const Snippet = (lessons) => {
   const [annotationsColumn, setAnnotationsColumn] = useState(true);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
+  const [annotationPopover, setAnnotationPopover] = useState(false);
+  const [annotationPopoverLocation, setAnnotationPopoverLocation] = useState();
+  const [annotationPopoverContent, setAnnotationPopoverContent] = useState();
 
   const toggleModal = () => setModal(!modal);
   const toggleAnnotationsColumn = () => setAnnotationsColumn(!annotationsColumn)
+  const toggleAnnotationPopover = () => setAnnotationPopover(!annotationPopover)
 
   const removeAnnotation = (removedAnnotationID) => {
     deleteAnnotation(removedAnnotationID)
@@ -163,25 +168,40 @@ const Snippet = (lessons) => {
   const click = (e) => {
     let isMatch = (element) => element === e.target.innerHTML
     if (e.target.className !== ''){
-      console.log(annotationStrings.findIndex(isMatch))
+      let index = annotationStrings.findIndex(isMatch)
+      setAnnotationPopoverContent(annotations[index])
+      console.log(annotations[index])
+      //console.log(e.clientX, e.clientY)
+      //console.log(e.target.firstChild)
+      setAnnotationPopoverLocation(e.target.firstChild)
+      toggleAnnotationPopover()
+
       //this number corresponds to the index of the object in 'annotations'
       //next step is to create an 'annotation pop-up' component
     }
   }
 
   return (
+    
     <div onMouseUp={handleMouseUp}>
+        
+        {annotationPopoverContent && <AnnotationPopover annotationPopover={annotationPopover} location={annotationPopoverLocation} content={annotationPopoverContent}/>}
         <AnnotationModal 
           modal={modal} toggleModal={toggleModal} formatNewAnnotation={formatNewAnnotation}
           setNewAnnotationContent={setNewAnnotationContent} newAnnotationContent={newAnnotationContent}
           newAnnotationText={newAnnotationText} newAnnotationHandler={newAnnotationHandler}
         />
+
+      
       <Container>
       <Col sm={{ size: 6, order: 2, offset: 6 }}>
         <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Hide annotations</Button>
+        <div id='popover'> 
+        </div>
       </Col>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
+            
             {annotations &&
               <Highlighter
                 highlightClassName="highlighted-text"
@@ -193,6 +213,7 @@ const Snippet = (lessons) => {
                 //activeClassName="active-highlighted-text"
               />
             }
+            
             </Col>
           
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
