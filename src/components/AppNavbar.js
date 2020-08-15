@@ -33,7 +33,7 @@ export default class AppNavbar extends Component {
                                 </Route>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/">Lessons</NavLink>
+                                <NavLink href="/dashboard">Teacher Dashboard</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="/">Sign out</NavLink>

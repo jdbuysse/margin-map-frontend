@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AppNavbar from './components/AppNavbar';
 import Snippet from './components/Snippet';
 import SplashPage from './components/SplashPage';
 
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import TeacherDashboard from './components/TeacherDashboard';
 
 const App = () => {
   const API_URL = 'http://localhost:5000'
@@ -18,21 +19,38 @@ const App = () => {
       .then(data => {
         setLessons(data)
       })
-    }, [])
+  }, [])
 
- 
+
   return (
     <Router>
-    <div className="App">
-      <AppNavbar />
-      <Route path='/'>
-        <SplashPage />
-      </Route>
-      <Route path='/snippet'>
-        {lessons && <Snippet lessons={lessons}/>}
-      </Route>
-      
-    </div>
+      <div className="App">
+        <AppNavbar />
+        <Route path='/'>
+          {/* <SplashPage /> */}
+        </Route>
+        <Route path='/dashboard'>
+          {/* <TeacherDashboard />     */}
+        </Route>
+        <Route path='/snippet'>
+
+        </Route>
+
+        <Switch>
+          <Route exact path="/">
+            <SplashPage />
+          </Route>
+          <Route path="/dashboard">
+            <TeacherDashboard />
+          </Route>
+          <Route path="/snippet">
+            {lessons && <Snippet lessons={lessons} />}
+          </Route>
+        </Switch>
+
+
+
+      </div>
     </Router>
   );
 }

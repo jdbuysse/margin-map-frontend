@@ -1,0 +1,20 @@
+.dashboard-wrapper{
+    margin-top: -3em;
+}
+
+.accordion-1:before {
+    content: "\25bc";  
+    float: right;     
+    color: grey;     
+}
+
+.accordion-1:after {
+    content: "\25b2";   
+    float: right;    
+    color: grey;    
+}
+
+.dashboard-accordions {
+    padding-left: 10%;
+    padding-top: 2%;
+}
