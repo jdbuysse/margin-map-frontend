@@ -5,6 +5,7 @@ import {
     NavbarBrand, NavItem, NavLink
 } from 'reactstrap';
 import {BrowserRouter as Route} from 'react-router-dom';
+import '../styles/appnavbar.css';
 
 export default class AppNavbar extends Component {
     state = {
@@ -20,9 +21,9 @@ export default class AppNavbar extends Component {
     render() {
         return(
             <div>
-            <Navbar color="light" light expand="sm" className="mb-5">
+            <Navbar color="light" light expand="sm" className="mb-5" style={{marginBottom: "-10"}} >
                 <Container>
-                    <NavbarBrand href='/'>Margin Map</NavbarBrand>
+                    <NavbarBrand href='/'>MarginMap</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar />
                         <Nav className="ml-auto" navbar>

@@ -170,14 +170,9 @@ const Snippet = (lessons) => {
     if (e.target.className !== ''){
       let index = annotationStrings.findIndex(isMatch)
       setAnnotationPopoverContent(annotations[index])
-      console.log(annotations[index])
-      //console.log(e.clientX, e.clientY)
-      //console.log(e.target.firstChild)
       setAnnotationPopoverLocation(e.target.firstChild)
+      console.log(e.target.firstChild)
       toggleAnnotationPopover()
-
-      //this number corresponds to the index of the object in 'annotations'
-      //next step is to create an 'annotation pop-up' component
     }
   }
 

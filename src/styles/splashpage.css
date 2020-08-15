@@ -1,0 +1,52 @@
+.home-page-background {
+    background-image: url('../images/kelly-sikkema-Plso5cHu9w0-unsplash.jpg'); 
+    /* background-image: url('../images/roel-dierckens-LzGjfk1SeDw-unsplash.jpg');  */ 
+    min-height: 100vh;
+    max-height: 100%;
+    margin-top: -3em;
+    background-size: cover;
+  }
+
+.intro-text-container {
+    margin-top: 10rem;
+    text-align: left;
+    border-radius: 25px;
+    padding: 15px;
+    background-color: rgba(245, 245, 245, 0.7);
+    margin-left: 15%;
+    max-width: 650px;
+    animation: fade-in 2s;
+}
+
+.bold-font {
+    font-weight: bold;
+    animation: fade-in 2s;
+}
+
+@keyframes fade-in {
+    from {
+      opacity: .25;
+
+    }
+    to {
+      
+      opacity: 1;
+    }
+}
+
+
+.home-page-buttons {
+    padding-top: 10%;
+}
+  
+.learn-more {
+    padding-left: 10%;
+}
+
+.mailing-list {
+    padding-left: 10%;
+}
+
+.sign-up {
+    padding-left: 10%;
+}
