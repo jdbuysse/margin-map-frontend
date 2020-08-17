@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRouteMatch} from 'react';
+import React, { useEffect, useState} from 'react';
 import '../styles/snippet.css';
 import { Container, Row, Col, Button} from 'reactstrap';
 import Highlighter from "react-highlight-words";
@@ -6,11 +6,12 @@ import Annotation from './Annotation';
 import AnnotationModal from './AnnotationModal';
 import AnnotationPopover from './AnnotationPopover'
 
-const Snippet = (lessons, routerProps) => {
+const Snippet = (lessons) => {
   
   const API_URL = 'http://localhost:5000'
 
   const [annotations, setAnnotations] = useState(false);
+  const [snippet, setSnippet] = useState();
   const [annotationStrings, setAnnotationStrings] = useState('');
   const [modal, setModal] = useState(false);
   const [annotationsColumn, setAnnotationsColumn] = useState(false);
@@ -30,26 +31,15 @@ const Snippet = (lessons, routerProps) => {
     setAnnotations(newArray);
   }
 
-  const deleteAnnotation = (id) => {
-    var raw = "";
-    var requestOptions = {
-      method: 'DELETE',
-      body: raw,
-      redirect: 'follow'
-    };
-    fetch(`http://localhost:5000/annotations/${id}`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  }
+
 
   useEffect(() => {
-    let hi = getSnippetId()
-    console.log(hi)
-    let id = lessons.lessons[0]._id
+    let id = getSnippetId()
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
       .then(data => {
+        console.log(data.body)
+        setSnippet(data.body)
         setAnnotations(data.annotations)
         createAnnotationTargetStrings(data.annotations)
       })
@@ -69,6 +59,19 @@ const Snippet = (lessons, routerProps) => {
   const createAnnotationTargetStrings = (annotations) => {
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
     setAnnotationStrings(newAnnotationStrings)
+  }
+
+  const deleteAnnotation = (id) => {
+    var raw = "";
+    var requestOptions = {
+      method: 'DELETE',
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch(`http://localhost:5000/annotations/${id}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
   }
 
   const handleMouseUp = () =>{
@@ -208,7 +211,7 @@ const Snippet = (lessons, routerProps) => {
                 highlightClassName="highlighted-text"
                 searchWords={annotationStrings ? annotationStrings : [""]}
                 autoEscape={true}
-                textToHighlight={lessons && lessons.lessons[0].body}
+                textToHighlight={snippet && snippet}
                 //activeIndex={0}
                 onClick={click}
                 //activeClassName="active-highlighted-text"
