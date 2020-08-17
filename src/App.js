@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AppNavbar from './components/AppNavbar';
@@ -26,16 +26,6 @@ const App = () => {
     <Router>
       <div className="App">
         <AppNavbar />
-        <Route path='/'>
-        </Route>
-        <Route path='/dashboard'>
-        </Route>
-        <Route path='/snippet'>
-        </Route>
-        {/* <Route exact path="/snippet/:snippetId">
-          {lessons && <Snippet lessons={lessons}/>}
-        </Route> */}
-
         <Switch>
           <Route exact path="/">
             <SplashPage />
@@ -46,13 +36,10 @@ const App = () => {
           <Route path="/snippet">
             {lessons && <Snippet lessons={lessons} />}
           </Route>
-          {/* <Route exact path="/snippet/:snippetId">
-            {lessons && <Snippet lessons={lessons} />}
-          </Route> */}
+          {/* <Route path="/snippet/:snippetId" render={(routerProps) => <Snippet lessons={lessons} routerProps={routerProps}/>} /> */}
+          <Route path="/snippet/:snippetId" render={({routerProps}) => <Snippet {...routerProps}/>} />
+          {/* <Route path="/snippet/:snippetId" component={Snippet}/> */}
         </Switch>
-
-
-
       </div>
     </Router>
   );

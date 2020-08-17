@@ -22,6 +22,4 @@
 .lesson-container {
     display: flex;
     overflow-x: scroll;
-    overflow-y: scroll;
-    
 }

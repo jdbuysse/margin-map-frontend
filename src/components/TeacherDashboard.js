@@ -33,19 +33,17 @@ const TeacherDashboard = () => {
         <div className="dashboard-wrapper">
             <Row>
                 <Col className="dashboard-accordions" sm={{ size: 8, order: 2, offset: 0 }}>
-                    <Accordion defaultActiveKey="0">
+                    <Accordion defaultActiveKey="1">
                         <Card>
                             <Accordion.Toggle as={Card.Header} eventKey="0" className="accordion-1">
                                 Recent Lessons
                         </Accordion.Toggle>
-
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
                                     <Row>
                                     <div className="lesson-container">
                                         {lessons && previews && lessons.map((lesson, index) => (
                                             <Col sm="6">
-                                                {console.log(lesson)}
                                                 <LessonCard lesson={lesson} key={index} preview={previews[index]} />
                                             </Col>
                                         ))}
@@ -55,22 +53,18 @@ const TeacherDashboard = () => {
                             </Accordion.Collapse>
                         </Card>
                         <Card>
-
-                            <Accordion.Toggle as={Card.Header} eventKey="1">
+                            <Accordion.Toggle as={Card.Header} eventKey="0">
                                 Classes
-                    </Accordion.Toggle>
-
-                            <Accordion.Collapse eventKey="1">
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="0">
                                 <Card.Body>Hello! I'm another body</Card.Body>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
-
-                            <Accordion.Toggle as={Card.Header} eventKey="1">
+                            <Accordion.Toggle as={Card.Header} eventKey="0">
                                 Students
-                    </Accordion.Toggle>
-
-                            <Accordion.Collapse eventKey="1">
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="0">
                                 <Card.Body>Hello! I'm another body</Card.Body>
                             </Accordion.Collapse>
                         </Card>

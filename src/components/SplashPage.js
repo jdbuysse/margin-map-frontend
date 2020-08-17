@@ -10,13 +10,13 @@ const SplashPage = () => {
                     <div className="intro-text-container" >
                         <h1 className="bold-font">MarginMap</h1>
                         <br></br>
-                        <h2 className="bold-font">Group annotation application for virtual learning</h2>
+                        <h2>Group annotation application for virtual learning</h2>
                         <br></br>
-                        <h3 className="bold-font">More text</h3>
+                        <h3 className="bold-font"> </h3>
                         <br></br>
-                        <h3 className="bold-font">More</h3>
+                        <h3 className="bold-font"> </h3>
                         <br></br>
-                        <h3 className="bold-font">Last bit</h3>
+                        <h3 className="bold-font"> </h3>
 
                         <div className="row subRow" id="home-page-buttons">
                             <div className="learn-more">

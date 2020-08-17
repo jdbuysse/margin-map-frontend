@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useRouteMatch} from 'react';
 import '../styles/snippet.css';
 import { Container, Row, Col, Button} from 'reactstrap';
 import Highlighter from "react-highlight-words";
@@ -6,13 +6,14 @@ import Annotation from './Annotation';
 import AnnotationModal from './AnnotationModal';
 import AnnotationPopover from './AnnotationPopover'
 
-const Snippet = (lessons) => {
+const Snippet = (lessons, routerProps) => {
+  
   const API_URL = 'http://localhost:5000'
 
   const [annotations, setAnnotations] = useState(false);
   const [annotationStrings, setAnnotationStrings] = useState('');
   const [modal, setModal] = useState(false);
-  const [annotationsColumn, setAnnotationsColumn] = useState(true);
+  const [annotationsColumn, setAnnotationsColumn] = useState(false);
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
   const [annotationPopover, setAnnotationPopover] = useState(false);
@@ -43,6 +44,8 @@ const Snippet = (lessons) => {
   }
 
   useEffect(() => {
+    let hi = getSnippetId()
+    console.log(hi)
     let id = lessons.lessons[0]._id
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
@@ -57,6 +60,11 @@ const Snippet = (lessons) => {
       createAnnotationTargetStrings(annotations)
     }
   }, [annotations])
+
+  const getSnippetId = () => {
+    let arr = window.location.href.split('/')
+    return arr.slice().pop()
+  }
 
   const createAnnotationTargetStrings = (annotations) => {
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
@@ -187,10 +195,9 @@ const Snippet = (lessons) => {
           newAnnotationText={newAnnotationText} newAnnotationHandler={newAnnotationHandler}
         />
 
-      
       <Container>
       <Col sm={{ size: 6, order: 2, offset: 6 }}>
-        <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Hide annotations</Button>
+        <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Show annotations</Button>
         <div id='popover'> 
         </div>
       </Col>

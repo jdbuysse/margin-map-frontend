@@ -1,9 +1,11 @@
 import React from 'react';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Row, Col, CardGroup
+    CardTitle, Button, Row, CardGroup
 } from 'reactstrap';
 import annoImg from '../images/annotation.PNG'
+import '../styles/lessonCard.css';
+import {BrowserRouter as Route} from 'react-router-dom';
 
 
 const LessonCard = ({lesson, preview}) => {
@@ -15,9 +17,11 @@ const LessonCard = ({lesson, preview}) => {
             <Card>
                 <CardImg src={annoImg} alt="lesson image cap" />
                 <CardBody>
-                    <CardTitle>{lesson.name}</CardTitle>
+                    <CardTitle className="lesson-title">{lesson.name}</CardTitle>
                     <CardText>{preview}</CardText>
-                    <Button>Button</Button>
+                    <Route>
+                        <Button href={`/snippet/${lesson._id}`}>Button</Button>
+                    </Route>
                 </CardBody>
             </Card>
             </CardGroup>
