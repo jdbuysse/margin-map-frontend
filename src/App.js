@@ -27,14 +27,14 @@ const App = () => {
       <div className="App">
         <AppNavbar />
         <Route path='/'>
-          {/* <SplashPage /> */}
         </Route>
         <Route path='/dashboard'>
-          {/* <TeacherDashboard />     */}
         </Route>
         <Route path='/snippet'>
-
         </Route>
+        {/* <Route exact path="/snippet/:snippetId">
+          {lessons && <Snippet lessons={lessons}/>}
+        </Route> */}
 
         <Switch>
           <Route exact path="/">
@@ -46,6 +46,9 @@ const App = () => {
           <Route path="/snippet">
             {lessons && <Snippet lessons={lessons} />}
           </Route>
+          {/* <Route exact path="/snippet/:snippetId">
+            {lessons && <Snippet lessons={lessons} />}
+          </Route> */}
         </Switch>
 
 

@@ -196,7 +196,6 @@ const Snippet = (lessons) => {
       </Col>
         <Row>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
-            
             {annotations &&
               <Highlighter
                 highlightClassName="highlighted-text"
@@ -208,9 +207,7 @@ const Snippet = (lessons) => {
                 //activeClassName="active-highlighted-text"
               />
             }
-            
             </Col>
-          
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
             
             {annotationsColumn && annotations && annotations.map((annotation, index) => ( 
