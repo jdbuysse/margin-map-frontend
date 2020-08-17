@@ -18,3 +18,9 @@
     padding-left: 10%;
     padding-top: 2%;
 }
+
+.lesson-container {
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+}
