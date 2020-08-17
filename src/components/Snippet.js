@@ -174,6 +174,7 @@ const Snippet = (lessons) => {
         patchAnnotationsToSnippet(IDs)
     })
     createAnnotationTargetStrings(annotations)
+    setNewAnnotationContent()
   }
 
   const click = (e) => {
@@ -201,7 +202,7 @@ const Snippet = (lessons) => {
       <Container>
       <Col sm={{ size: 6, order: 2, offset: 6 }}>
         <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Show annotations</Button>
-        <div id='popover'> 
+        <div id='popover' className='popover-modal'> 
         </div>
       </Col>
         <Row>
@@ -212,9 +213,7 @@ const Snippet = (lessons) => {
                 searchWords={annotationStrings ? annotationStrings : [""]}
                 autoEscape={true}
                 textToHighlight={snippet && snippet}
-                //activeIndex={0}
                 onClick={click}
-                //activeClassName="active-highlighted-text"
               />
             }
             </Col>

@@ -13,3 +13,8 @@
 #Popover1{
     display: none;
 }
+
+.popover-modal{
+    width: 10px;
+    margin-left: 100px;
+}
