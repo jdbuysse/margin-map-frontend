@@ -18,7 +18,6 @@ const Snippet = (lessons) => {
   const [newAnnotationText, setNewAnnotationText] = useState();
   const [newAnnotationContent, setNewAnnotationContent] = useState();
   const [annotationPopover, setAnnotationPopover] = useState(false);
-  const [annotationPopoverLocation, setAnnotationPopoverLocation] = useState();
   const [annotationPopoverContent, setAnnotationPopoverContent] = useState();
 
   const toggleModal = () => setModal(!modal);
@@ -31,17 +30,14 @@ const Snippet = (lessons) => {
     setAnnotations(newArray);
   }
 
-
-
   useEffect(() => {
     let id = getSnippetId()
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data.body)
+        createAnnotationTargetStrings(data.annotations)
         setSnippet(data.body)
         setAnnotations(data.annotations)
-        createAnnotationTargetStrings(data.annotations)
       })
   }, [lessons])
 
@@ -57,7 +53,9 @@ const Snippet = (lessons) => {
   }
 
   const createAnnotationTargetStrings = (annotations) => {
-    let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string)
+    console.log('cs',annotations)
+    let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string[0])
+    console.log('new annotation strings', newAnnotationStrings)
     setAnnotationStrings(newAnnotationStrings)
   }
 
@@ -82,21 +80,19 @@ const Snippet = (lessons) => {
   }
 
   const createNewAnnotation = (content) => {
+    console.log('cs', newAnnotationText)
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
     let raw = JSON.stringify({
       "content":content,
       "corresponding_string": newAnnotationText
     });
-
     let requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow'
     };
-
     fetch(`${API_URL}/annotations`, requestOptions)
       .then(response => response.text())
       .then(result => console.log('new object',result))
@@ -121,7 +117,7 @@ const Snippet = (lessons) => {
   }
 
   const patchAnnotationsToSnippet = (idArray) => {
-    let id = lessons.lessons[0]._id
+    let id = getSnippetId()
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     let raw = JSON.stringify({"annotations":idArray});
@@ -182,23 +178,18 @@ const Snippet = (lessons) => {
     if (e.target.className !== ''){
       let index = annotationStrings.findIndex(isMatch)
       setAnnotationPopoverContent(annotations[index])
-      setAnnotationPopoverLocation(e.target.firstChild)
-      console.log(e.target.firstChild)
       toggleAnnotationPopover()
     }
   }
 
   return (
-    
     <div onMouseUp={handleMouseUp}>
-        
-        {annotationPopoverContent && <AnnotationPopover annotationPopover={annotationPopover} location={annotationPopoverLocation} content={annotationPopoverContent}/>}
+        {annotationPopoverContent && <AnnotationPopover annotationPopover={annotationPopover} content={annotationPopoverContent}/>}
         <AnnotationModal 
           modal={modal} toggleModal={toggleModal} formatNewAnnotation={formatNewAnnotation}
           setNewAnnotationContent={setNewAnnotationContent} newAnnotationContent={newAnnotationContent}
           newAnnotationText={newAnnotationText} newAnnotationHandler={newAnnotationHandler}
         />
-
       <Container>
       <Col sm={{ size: 6, order: 2, offset: 6 }}>
         <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Show annotations</Button>
@@ -217,8 +208,7 @@ const Snippet = (lessons) => {
               />
             }
             </Col>
-          <Col sm={{ size: 6, order: 2, offset: 0 }}>
-            
+          <Col sm={{ size: 6, order: 2, offset: 0 }}>            
             {annotationsColumn && annotations && annotations.map((annotation, index) => ( 
               <Annotation annotation={annotation} key={index} removeAnnotation={removeAnnotation} />
             ))}
