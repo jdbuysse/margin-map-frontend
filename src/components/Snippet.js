@@ -35,7 +35,6 @@ const Snippet = (lessons) => {
     fetch(`${API_URL}/snippets/${id}`)
       .then(response => response.json())
       .then(data => {
-        createAnnotationTargetStrings(data.annotations)
         setSnippet(data.body)
         setAnnotations(data.annotations)
       })
