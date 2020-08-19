@@ -44,7 +44,7 @@ const TeacherDashboard = () => {
                                     <div className="lesson-container">
                                         {lessons && previews && lessons.map((lesson, index) => (
                                             <Col sm="6">
-                                                <LessonCard lesson={lesson} key={index} preview={previews[index]} />
+                                                <LessonCard lesson={lesson} key={lesson._id} id={index} preview={previews[index]} />
                                             </Col>
                                         ))}
                                     </div>

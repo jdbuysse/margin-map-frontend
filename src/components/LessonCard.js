@@ -4,18 +4,19 @@ import {
     CardTitle, Button, Row, CardGroup
 } from 'reactstrap';
 import annoImg from '../images/annotation.PNG'
+import annoImg2 from '../images/annotation5.PNG'
 import '../styles/lessonCard.css';
 import {BrowserRouter as Route} from 'react-router-dom';
 
 
-const LessonCard = ({lesson, preview}) => {
-
+const LessonCard = ({lesson, preview, id}) => {
+    console.log(id)
     return (
         <div>
             <Row>
             <CardGroup>
             <Card>
-                <CardImg src={annoImg} alt="lesson image cap" />
+                <CardImg src={id % 2 === 0 ? annoImg : annoImg2} alt="lesson image cap" />
                 <CardBody>
                     <CardTitle className="lesson-title">{lesson.name}</CardTitle>
                     <CardText>{preview}</CardText>
