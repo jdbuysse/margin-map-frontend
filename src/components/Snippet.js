@@ -19,6 +19,8 @@ const Snippet = (lessons) => {
   const [newAnnotationContent, setNewAnnotationContent] = useState();
   const [annotationPopover, setAnnotationPopover] = useState(false);
   const [annotationPopoverContent, setAnnotationPopoverContent] = useState();
+  const [annotationIDs, setAnnotationIDs] = useState();
+  const [snippetID, setSnippetID] = useState();
 
   const toggleModal = () => setModal(!modal);
   const toggleAnnotationsColumn = () => setAnnotationsColumn(!annotationsColumn)
@@ -37,8 +39,10 @@ const Snippet = (lessons) => {
       .then(data => {
         setSnippet(data.body)
         setAnnotations(data.annotations)
+        setAnnotationIDs(data.annotations.map((annotation) => annotation._id))
+        setSnippetID(id)
       })
-  }, [lessons])
+  }, [lessons, annotationIDs])
 
   useEffect(() => {
     if (annotations){
@@ -52,9 +56,7 @@ const Snippet = (lessons) => {
   }
 
   const createAnnotationTargetStrings = (annotations) => {
-    console.log('cs',annotations)
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string[0])
-    console.log('new annotation strings', newAnnotationStrings)
     setAnnotationStrings(newAnnotationStrings)
   }
 
@@ -79,7 +81,6 @@ const Snippet = (lessons) => {
   }
 
   const createNewAnnotation = (content) => {
-    console.log('cs', newAnnotationText)
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     let raw = JSON.stringify({
@@ -92,31 +93,22 @@ const Snippet = (lessons) => {
       body: raw,
       redirect: 'follow'
     };
-    fetch(`${API_URL}/annotations`, requestOptions)
-      .then(response => response.text())
-      .then(result => console.log('new object',result))
+    return fetch(`${API_URL}/annotations`, requestOptions)
+      .then(response => response.json())
       .catch(error => console.log('error', error));
+  }
+
+  const addNewAnnotationId = (result) => {
+    let newArray = [...annotationIDs, result]
+    setAnnotationIDs(newArray)
   }
 
   const formatNewAnnotation = () => {
     toggleModal()
     createNewAnnotation(newAnnotationContent)
-    patchNewAnnotation()
-  }
-
-  const patchNewAnnotation = () => {
-    getSnippetAndAnnotations()
-      .then(([notes]) => {
-        getAnnotationIDs(notes)
-      })
-  }
-
-  const getAnnotationIDs = (notes) => {
-    return notes.map((annotation) => annotation._id) 
   }
 
   const patchAnnotationsToSnippet = (idArray) => {
-    let id = getSnippetId()
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     let raw = JSON.stringify({"annotations":idArray});
@@ -126,50 +118,27 @@ const Snippet = (lessons) => {
       body: raw,
       redirect: 'follow'
     };
-    fetch(`${API_URL}/snippets/${id}`, requestOptions)
+    fetch(`${API_URL}/snippets/${snippetID}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-  }
-
-  const getAnnotations = () => {
-    return fetch(`${API_URL}/annotations/`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then((response) => response.json())
-  };
-
-  const getSnippetAndAnnotations = () => {
-    return Promise.all([getAnnotations()])
   }
 
   const promiseAddAnnotation = () => {
     return Promise.all([createNewAnnotation(newAnnotationContent)])
   }
 
-  const promiseGetAnnotations = () => {
-    return Promise.all([getAnnotations()])
-  }
-
-  const addNewAnnotationToHook = (object) => {
-    let newArray = [...annotations, object]
-    setAnnotations(newArray)
-  }
-
   const newAnnotationHandler = () => {
     toggleModal()
     promiseAddAnnotation(newAnnotationContent)
-    promiseGetAnnotations()
-    getSnippetAndAnnotations()
-      .then(([notes]) => {
-        addNewAnnotationToHook(notes[0])
-        let IDs = getAnnotationIDs(notes)
-        patchAnnotationsToSnippet(IDs)
-    })
-    createAnnotationTargetStrings(annotations)
-    setNewAnnotationContent()
+      .then(([prom]) => {
+        let patchArr = [...annotationIDs, prom._id]
+        //patch id into snippet annotation array
+        patchAnnotationsToSnippet(patchArr)
+        //update state with new ID
+        addNewAnnotationId(prom._id)
+      })
+    setNewAnnotationContent() //empty 'new annotation' state
   }
 
   const click = (e) => {

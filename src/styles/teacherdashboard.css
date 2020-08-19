@@ -2,17 +2,12 @@
     margin-top: -3em;
 }
 
-.accordion-1:before {
-    content: "\25bc";  
+.recent-lessons-accordion:before{
+    content: "\25b2\25bc";  
     float: right;     
     color: grey;     
 }
 
-.accordion-1:after {
-    content: "\25b2";   
-    float: right;    
-    color: grey;    
-}
 
 .dashboard-accordions {
     padding-left: 10%;
@@ -22,4 +17,16 @@
 .lesson-container {
     display: flex;
     overflow-x: scroll;
+}
+
+.class-accordion:before{
+    content: "\25b2\25bc";  
+    float: right;     
+    color: grey;       
+}
+
+.student-accordion:before{
+    content: "\25b2\25bc";  
+    float: right;     
+    color: grey;       
 }

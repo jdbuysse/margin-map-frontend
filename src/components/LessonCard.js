@@ -20,7 +20,7 @@ const LessonCard = ({lesson, preview}) => {
                     <CardTitle className="lesson-title">{lesson.name}</CardTitle>
                     <CardText>{preview}</CardText>
                     <Route>
-                        <Button href={`/snippet/${lesson._id}`}>Button</Button>
+                        <Button href={`/snippet/${lesson._id}`}>Go to Lesson</Button>
                     </Route>
                 </CardBody>
             </Card>
