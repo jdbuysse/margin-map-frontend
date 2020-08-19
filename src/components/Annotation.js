@@ -1,10 +1,13 @@
 import React from 'react';
+import '../styles/annotation.css';
 
 const Annotation = ( {annotation, removeAnnotation} ) => {
 
 
     return(
-        <li>{annotation.content} <button onClick={() =>removeAnnotation(annotation._id)}>&#9747;</button></li> //add a button to delete thing
+        <div className="annotation-card">
+        <li className="annotation-list-item">{annotation.content} <button className="delete-annotation-button" onClick={() =>removeAnnotation(annotation._id)}>&#9747;</button></li>
+        </div>
     )
 }
 

@@ -1,0 +1,30 @@
+.annotation-card{
+    background-color: #dedfe0;
+    border-radius: 25px;
+    opacity: 45%;
+
+    margin-left: 0px;
+    font-size: 100%;
+    margin-bottom: 10px;
+  }
+
+.annotation-list-item{
+    list-style-type: none;
+    padding: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+.delete-annotation-button{
+    float: right;
+    cursor:pointer;
+    color: rgb(0, 0, 0);
+    border: 1px solid #AEAEAE;
+    border-radius: 35px;
+    background: #605F61;
+    font-size: 15px;
+    display: inline-block;
+    line-height: 0px;
+    padding: 11px 3px;       
+}
+

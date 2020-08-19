@@ -10,14 +10,10 @@ const SplashPage = () => {
                     <div className="intro-text-container" >
                         <h1 className="bold-font">MarginMap</h1>
                         <br></br>
-                        <h2>Group annotation application for virtual learning</h2>
+                        <h2>Map your class!</h2>
                         <br></br>
-                        <h3 className="bold-font"> </h3>
+                        <h3>Create interactive lessons and generate a living document for your courses</h3>
                         <br></br>
-                        <h3 className="bold-font"> </h3>
-                        <br></br>
-                        <h3 className="bold-font"> </h3>
-
                         <div className="row subRow" id="home-page-buttons">
                             <div className="learn-more">
                                 <Button >Learn More</Button>
