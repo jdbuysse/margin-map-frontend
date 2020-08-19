@@ -20,6 +20,7 @@ const Snippet = (lessons) => {
   const [annotationPopover, setAnnotationPopover] = useState(false);
   const [annotationPopoverContent, setAnnotationPopoverContent] = useState();
   const [annotationIDs, setAnnotationIDs] = useState();
+  const [snippetID, setSnippetID] = useState();
 
   const toggleModal = () => setModal(!modal);
   const toggleAnnotationsColumn = () => setAnnotationsColumn(!annotationsColumn)
@@ -39,6 +40,7 @@ const Snippet = (lessons) => {
         setSnippet(data.body)
         setAnnotations(data.annotations)
         setAnnotationIDs(data.annotations.map((annotation) => annotation._id))
+        setSnippetID(id)
       })
   }, [lessons, annotationIDs])
 
@@ -54,9 +56,7 @@ const Snippet = (lessons) => {
   }
 
   const createAnnotationTargetStrings = (annotations) => {
-    console.log('cs',annotations)
     let newAnnotationStrings = annotations.map((annotation) => annotation.corresponding_string[0])
-    console.log('new annotation strings', newAnnotationStrings)
     setAnnotationStrings(newAnnotationStrings)
   }
 
@@ -99,9 +99,7 @@ const Snippet = (lessons) => {
   }
 
   const addNewAnnotationId = (result) => {
-    console.log('adding new', result)
     let newArray = [...annotationIDs, result]
-    console.log(newArray)
     setAnnotationIDs(newArray)
   }
 
@@ -111,7 +109,6 @@ const Snippet = (lessons) => {
   }
 
   const patchAnnotationsToSnippet = (idArray) => {
-    let id = getSnippetId()
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     let raw = JSON.stringify({"annotations":idArray});
@@ -121,7 +118,7 @@ const Snippet = (lessons) => {
       body: raw,
       redirect: 'follow'
     };
-    fetch(`${API_URL}/snippets/${id}`, requestOptions)
+    fetch(`${API_URL}/snippets/${snippetID}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
@@ -141,7 +138,7 @@ const Snippet = (lessons) => {
         //update state with new ID
         addNewAnnotationId(prom._id)
       })
-    setNewAnnotationContent() //empty new annotation state
+    setNewAnnotationContent() //empty 'new annotation' state
   }
 
   const click = (e) => {
