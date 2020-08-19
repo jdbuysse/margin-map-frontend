@@ -21,6 +21,7 @@ const Snippet = (lessons) => {
   const [annotationPopoverContent, setAnnotationPopoverContent] = useState();
   const [annotationIDs, setAnnotationIDs] = useState();
   const [snippetID, setSnippetID] = useState();
+  const [annotationHovered, setAnnotationHovered] = useState();
 
   const toggleModal = () => setModal(!modal);
   const toggleAnnotationsColumn = () => setAnnotationsColumn(!annotationsColumn)
@@ -150,6 +151,16 @@ const Snippet = (lessons) => {
     }
   }
 
+  const annotationHover = (e) => {
+    if (e.target.className !== ''){ //and class name is not empty
+      setAnnotationHovered(e.target.textContent)
+    }
+  }
+
+  const clearHover = () => {
+    setAnnotationHovered()
+  }
+
   return (
     <div onMouseUp={handleMouseUp}>
         {annotationPopoverContent && <AnnotationPopover annotationPopover={annotationPopover} content={annotationPopoverContent}/>}
@@ -160,7 +171,7 @@ const Snippet = (lessons) => {
         />
       <Container>
       <Col sm={{ size: 6, order: 2, offset: 6 }}>
-        <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Show annotations</Button>
+        <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Show all annotations</Button>
         <div id='popover' className='popover-modal'> 
         </div>
       </Col>
@@ -173,12 +184,14 @@ const Snippet = (lessons) => {
                 autoEscape={true}
                 textToHighlight={snippet && snippet}
                 onClick={click}
+                onMouseOver={annotationHover}
+                onMouseLeave={clearHover}
               />
             }
             </Col>
           <Col sm={{ size: 6, order: 2, offset: 0 }}>            
             {annotationsColumn && annotations && annotations.map((annotation, index) => ( 
-              <Annotation annotation={annotation} key={index} removeAnnotation={removeAnnotation} />
+              <Annotation annotation={annotation} key={index} removeAnnotation={removeAnnotation} annotationHovered={annotationHovered} />
             ))}
           </Col>
         </Row>
