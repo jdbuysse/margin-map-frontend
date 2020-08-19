@@ -33,9 +33,9 @@ const TeacherDashboard = () => {
         <div className="dashboard-wrapper">
             <Row>
                 <Col className="dashboard-accordions" sm={{ size: 8, order: 2, offset: 0 }}>
-                    <Accordion defaultActiveKey="1">
+                    <Accordion>
                         <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey="0" className="accordion-1">
+                            <Accordion.Toggle as={Card.Header} eventKey="0" className="recent-lessons-accordion">
                                 Recent Lessons
                         </Accordion.Toggle>
                             <Accordion.Collapse eventKey="0">
@@ -53,19 +53,19 @@ const TeacherDashboard = () => {
                             </Accordion.Collapse>
                         </Card>
                         <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey="0">
+                            <Accordion.Toggle as={Card.Header} eventKey="1" className='class-accordion'>
                                 Classes
                             </Accordion.Toggle>
-                            <Accordion.Collapse eventKey="0">
-                                <Card.Body>Hello! I'm another body</Card.Body>
+                            <Accordion.Collapse eventKey="1">
+                                <Card.Body></Card.Body>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey="0">
+                            <Accordion.Toggle as={Card.Header} eventKey="2" className='student-accordion'>
                                 Students
                             </Accordion.Toggle>
-                            <Accordion.Collapse eventKey="0">
-                                <Card.Body>Hello! I'm another body</Card.Body>
+                            <Accordion.Collapse eventKey="2">
+                                <Card.Body></Card.Body>
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>
