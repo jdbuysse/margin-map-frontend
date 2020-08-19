@@ -2,7 +2,6 @@
     background-color: #dedfe0;
     border-radius: 25px;
     opacity: 45%;
-
     margin-left: 0px;
     font-size: 100%;
     margin-bottom: 10px;
@@ -13,6 +12,14 @@
     padding: 10px;
     color: black;
     font-weight: bold;
+}
+
+.annotation-list-item-hovered {
+    list-style-type: none;
+    padding: 20px;
+    color: rgb(9, 9, 82);
+    font-weight: bold;
+    font-size: 125%;
 }
 
 .delete-annotation-button{

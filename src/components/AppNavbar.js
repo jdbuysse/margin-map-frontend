@@ -23,7 +23,7 @@ export default class AppNavbar extends Component {
             <div>
             <Navbar color="light" light expand="sm" className="mb-5" style={{marginBottom: "-10"}} >
                 <Container>
-                    <NavbarBrand href='/'>MarginMap</NavbarBrand>
+                    <NavbarBrand className="brand" href='/'>MarginMap</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar />
                         <Nav className="ml-auto" navbar>

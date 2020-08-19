@@ -12,6 +12,7 @@ const Snippet = (lessons) => {
 
   const [annotations, setAnnotations] = useState(false);
   const [snippet, setSnippet] = useState();
+  const [lessonTitle, setLessonTitle] = useState();
   const [annotationStrings, setAnnotationStrings] = useState('');
   const [modal, setModal] = useState(false);
   const [annotationsColumn, setAnnotationsColumn] = useState(false);
@@ -42,6 +43,7 @@ const Snippet = (lessons) => {
         setAnnotations(data.annotations)
         setAnnotationIDs(data.annotations.map((annotation) => annotation._id))
         setSnippetID(id)
+        setLessonTitle(data.name)
       })
   }, [lessons, annotationIDs])
 
@@ -152,7 +154,7 @@ const Snippet = (lessons) => {
   }
 
   const annotationHover = (e) => {
-    if (e.target.className !== ''){ //and class name is not empty
+    if (e.target.className !== ''){
       setAnnotationHovered(e.target.textContent)
     }
   }
@@ -170,19 +172,22 @@ const Snippet = (lessons) => {
           newAnnotationText={newAnnotationText} newAnnotationHandler={newAnnotationHandler}
         />
       <Container>
+      <div className="lesson-title">{lessonTitle}</div>
       <Col sm={{ size: 6, order: 2, offset: 6 }}>
         <Button className="hide-annotations-button" onClick={toggleAnnotationsColumn}>Show all annotations</Button>
-        <div id='popover' className='popover-modal'> 
-        </div>
+        
       </Col>
+        
         <Row>
+        
           <Col sm={{ size: 6, order: 2, offset: 0 }}>
+            
             {annotations &&
               <Highlighter
                 highlightClassName="highlighted-text"
                 searchWords={annotationStrings ? annotationStrings : [""]}
                 autoEscape={true}
-                textToHighlight={snippet && snippet}
+                textToHighlight={snippet}
                 onClick={click}
                 onMouseOver={annotationHover}
                 onMouseLeave={clearHover}
@@ -193,6 +198,8 @@ const Snippet = (lessons) => {
             {annotationsColumn && annotations && annotations.map((annotation, index) => ( 
               <Annotation annotation={annotation} key={index} removeAnnotation={removeAnnotation} annotationHovered={annotationHovered} />
             ))}
+            <div id='popover' className='popover-modal'> 
+            </div>
           </Col>
         </Row>
       </Container>

@@ -1,9 +1,5 @@
 .highlighted-text {
-    color: red;
-}
-
-.active-highlighted-text {
-    color: blue;
+    background-color: rgba(250, 176, 3, 0.315);
 }
 
 .hide-annotations-button {
@@ -17,4 +13,8 @@
 .popover-modal{
     width: 10px;
     margin-left: 100px;
+}
+
+.lesson-title{
+   padding-left: 0px;
 }
