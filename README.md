@@ -2,18 +2,18 @@
 ...is a text annotation platform for virtual or in-person learning with language curriculum at the center of its design. 
 
 ## Table of contents
-* [Purpose] (#purpose)
-* [Video Demo] (#video-demo)
-* [Technologies] (#technologies)
-* [Features] (#features)
-* [Under Development] (#development) 
-* [Contact] (#contact)
+* [Purpose](#purpose)
+* [Video Demo](#video-demo)
+* [Technologies](#technologies)
+* [Features](#features)
+* [Under Development](#development) 
+* [Contact](#contact)
 
 ## Purpose <a name="purpose"></a>
 *Margin Map* addresses a real problem that I noticed in writing pedagogy in my time teaching writing and English courses, which is connecting individual lessons with the larger themes and emphasis of the class. This repo sketches out the frontend for a larger platform currently under development, and allows teachers to publish lessons and solicit comments from students.
 
 ## Video Demo <a name="video-demo"></a>
-[(./images/mmdemo.PNG)](https://youtu.be/fa2LViDEblI)
+[![Demo](/images/mmdemo.PNG)](https://youtu.be/fa2LViDEblI)
 
 ## Technologies <a name="technologies"></a>
 * React (mostly hooks)
