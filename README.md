@@ -13,7 +13,7 @@
 *Margin Map* addresses a real problem that I noticed in writing pedagogy in my time teaching writing and English courses, which is connecting individual lessons with the larger themes and emphasis of the class. This repo sketches out the frontend for a larger platform currently under development, and allows teachers to publish lessons and solicit comments from students.
 
 ## Video Demo <a name="video-demo"></a>
-[![Demo](/images/mmdemo.PNG)](https://youtu.be/fa2LViDEblI)
+[![Demo](src/images/mmdemo.PNG)](https://youtu.be/fa2LViDEblI)
 
 ## Technologies <a name="technologies"></a>
 * React (mostly hooks)
