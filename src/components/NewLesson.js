@@ -4,7 +4,7 @@ import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap
 const NewLesson = () => {
     return (
         <div>
-            <Col sm={{ size: 6, order: 2, offset: 1 }}>
+            <Col sm={{ size: 6, order: 2, offset: 3 }}>
                 <Form>
                     <FormGroup row>
                         <Label for="exampleEmail" sm={2}>Lesson Title</Label>
