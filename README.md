@@ -17,7 +17,7 @@
 ![teacher dashboard](src/images/teacher-dashboard.PNG)
 ![lesson view](src/images/lesson-screen.PNG)
 ## Technologies <a name="technologies"></a>
-* React (mostly hooks)
+* React (hooks)
 * Javascript
 * Bootstrap 4
 * Node.js/Express
