@@ -8,7 +8,6 @@ const Annotation = ( {annotation, removeAnnotation, annotationHovered} ) => {
             className={annotationHovered === annotation.corresponding_string[0]? "annotation-list-item-hovered" : "annotation-list-item"}   
         >
             {annotation.content} 
-            {/* {annotationHovered === annotation.corresponding_string[0] ? <div>hover</div> : <div>not hover</div>} */}
         <button className="delete-annotation-button" onClick={() =>removeAnnotation(annotation._id)}>&#9747;</button></li>
         
         </div>
